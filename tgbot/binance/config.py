@@ -3,7 +3,7 @@ import os
 
 from tgbot.binance.binance_api import Binance
 
-bot = Binance(
+botB = Binance(
     API_KEY='74pxkpWe89TdAo8vL8KhPhoAIguHN4LZjWiIRQuEC3D73ehiP7h9g3zS0XiAjDt1',
     API_SECRET='qWD65mM54GONTJ6G1B9alp6DCbGqCObUid9v1BJArgsblmUeApdzGRtuHwYj6aHf'
 )

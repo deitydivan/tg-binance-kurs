@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from trades import BaseTrade
+# from trades import BaseTrade
 
 # Ф-ция, которая приводит любое число к числу, кратному шагу, указанному биржей
 # Если передать параметр increase=True то округление произойдет к следующему шагу

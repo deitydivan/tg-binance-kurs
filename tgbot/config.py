@@ -48,3 +48,7 @@ def load_config(path: str = None):
         ),
         misc=Miscellaneous()
     )
+    
+DB_URI = "postgres://rlfdvcditosxia:550d193d8fb7962cb85178198e5f9612dbf11e12a08d2a0731adbfffb1943561@ec2-54-228-218-84.eu-west-1.compute.amazonaws.com:5432/d9s51kmjiegnth"
+    
+

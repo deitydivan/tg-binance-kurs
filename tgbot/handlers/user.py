@@ -1,29 +1,51 @@
-from aiogram import Router
+from aiogram import Router, Bot, types
 from aiogram.types import Message
-from tgbot.binance.config import (bot, pairs, TIMEFRAME, KLINES_LIMITS, POINTS_TO_ENTER, USE_OPEN_CANDLES)
+from tgbot.config import load_config
+from datetime import datetime
+
+from tgbot.binance.config import (botB, pairs, TIMEFRAME, KLINES_LIMITS, POINTS_TO_ENTER, USE_OPEN_CANDLES)
 from tgbot.binance import indicators as ind
 
+from tgbot.misc.texts import messages
+from tgbot.misc.af_status import af_status
+from tgbot.misc.get_info import get_profile
+from tgbot.misc.get_time import get_time
+
+from tgbot.db.users_update import reg_user, add_set
 user_router = Router()
 
-def tests():
-    klines = bot.klines(
-        symbol='BTCUSDT',
-        interval=TIMEFRAME,
-        limit=KLINES_LIMITS
-    )
-    klines = klines[:len(klines)-int(not USE_OPEN_CANDLES)]
-    closes = [float(x[4]) for x in klines]
-    high = [float(x[2]) for x in klines]
-    low = [float(x[3]) for x in klines]
-    # Скользящая средняя
-    sma_5 = ind.SMA(closes, 5)
-    sma_100 = ind.SMA(closes, 100)
-    ema_5 = ind.EMA(closes, 5)
-    ema_100 = ind.EMA(closes, 100)
-    macd = ind.MACD(closes,10,15,30)
-    return macd
+config = load_config(".env")
+bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
 
 
 @user_router.message(commands=["start"])
 async def user_start(message: Message):
-    await message.reply('time')
+    userid = message.from_user.id
+    name = message.from_user.first_name
+    
+    status = await af_status(userid)
+    if status == False:
+        await reg_user(userid,name)
+    await bot.send_message(userid, messages["gretting"])
+    
+@user_router.message(commands=["help"])
+async def user_start(message: Message):
+    userid = message.from_user.id
+    
+    await bot.send_message(userid, messages["help"])
+    
+@user_router.message(commands=["instructions"])
+async def user_start(message: Message):
+    userid = message.from_user.id
+    
+    await bot.send_message(userid, messages["instructions"])
+    
+@user_router.message(commands=["profile"])
+async def user_start(message: Message):
+    userid = message.from_user.id
+    name, advices = await get_profile(userid)
+    time = get_time()
+    print(type(time))
+    # print(datetime.fromtimestamp(time))
+    
+    await bot.send_message(userid,f"Ваш id: {userid}\nИмя: {name}\nКоличество полученых сигналов: {advices}" )

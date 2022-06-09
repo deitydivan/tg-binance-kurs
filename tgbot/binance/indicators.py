@@ -140,7 +140,8 @@ def MACD(data, fastperiod, slowperiod, signalperiod):
         else:
             macdhist.append(macd[k] - macdsignal[k])
 
-    return macd, macdsignal, macdhist
+    # return macd, macdsignal, macdhist
+    return macd ,macdsignal
 
 # Relative strength index
 # https://en.wikipedia.org/wiki/Relative_strength_index
