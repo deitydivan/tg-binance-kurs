@@ -24,7 +24,6 @@ bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
 get_router = Router()
 
 
-
 @get_router.message(commands=["get"])
 async def user_start(message: Message, state = FSMContext):
     userid = message.from_user.id
