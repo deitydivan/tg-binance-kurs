@@ -12,12 +12,15 @@ from tgbot.middlewares.config import ConfigMiddleware
 from tgbot.services import broadcaster
 from tgbot.db.users_db import postgre_start
 
+
+
 logger = logging.getLogger(__name__)
 
 
 async def on_startup(bot: Bot, admin_ids: list[int]):
     print('bot started')
     await postgre_start()
+    
     # await broadcaster.broadcast(bot, admin_ids, "Бот був запущений")
 
 

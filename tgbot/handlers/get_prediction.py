@@ -1,5 +1,5 @@
 from aiogram import Router, Bot, types
-from aiogram.types import Message
+from aiogram.types import Message, FSInputFile
 from aiogram.dispatcher.filters.content_types import ContentTypesFilter
 from tgbot.config import load_config
 
@@ -10,13 +10,13 @@ from tgbot.misc.texts import messages
 from tgbot.misc.data import timeframe as tf
 from tgbot.misc.get_all_crypto import get_all_crypto
 from tgbot.misc.calc_indicators import calculate
+from tgbot.misc.build_chart import build_chart
+from tgbot.misc.states import getPre
 
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.dispatcher.fsm.state import State, StatesGroup
-from tgbot.misc.states import getPre
 
 from tgbot.db.users_update import reg_user, add_set,update_counter
-import json
 
 config = load_config(".env")
 bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
@@ -43,7 +43,7 @@ async def user_start(message: Message, state = FSMContext):
         await bot.send_message(userid, messages["send_timeframe"])
         await state.set_state(getPre.timeframe)
     else:
-        await bot.send_message(userid, "Нет такой пары, введите еще раз")
+        await bot.send_message(userid, "Нет такой пары, введите еще раз\nПолучить список всех пар можно командой /getcur")
         await state.set_state(getPre.pair)
     
     
@@ -62,6 +62,11 @@ async def user_start(message: Message, state = FSMContext):
         user_data = await state.get_data()
         await add_set(user_data['timeframe'],user_data['pair'],userid)    
         await state.clear()
+        
+        await build_chart(userid)
+        
+        photo = FSInputFile('tgbot/img/' + str(userid) + '.png')
+        await bot.send_photo(userid, photo , caption="Индикаторы")
         
         prediction = calculate(userid)
         if prediction >= 18:

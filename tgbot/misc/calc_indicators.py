@@ -54,11 +54,11 @@ def get_ind(userid):
     ema = ind.EMA(closes, emaP)
     macd ,macdsignal = ind.MACD(closes,10,15,30)
     rsi = ind.RSI(closes, 14)
-    return sma,ema,rsi, macd ,macdsignal
+    return sma,ema,rsi, macd ,macdsignal, closes
     
     
 def calculate(userid):
-    sma, ema, rsi, macd, macdsignal = get_ind(userid) 
+    sma, ema, rsi, macd, macdsignal, bars = get_ind(userid) 
     answer = 0
     
     if ema[-1] > sma[-1]:

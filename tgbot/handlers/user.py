@@ -1,5 +1,5 @@
 from aiogram import Router, Bot, types
-from aiogram.types import Message
+from aiogram.types import Message, FSInputFile
 from tgbot.config import load_config
 from datetime import datetime
 
@@ -46,6 +46,12 @@ async def user_start(message: Message):
     name, advices = await get_profile(userid)
     time = get_time()
     print(type(time))
-    # print(datetime.fromtimestamp(time))
     
     await bot.send_message(userid,f"Ваш id: {userid}\nИмя: {name}\nКоличество полученых сигналов: {advices}" )
+    
+@user_router.message(commands=["getcur"])
+async def user_start(message: Message):
+    userid = message.from_user.id
+    
+    file = FSInputFile('tgbot/misc/crypto.txt')
+    await bot.send_document(userid, file)
