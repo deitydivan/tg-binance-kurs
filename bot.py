@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+
 from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 
@@ -13,15 +14,12 @@ from tgbot.services import broadcaster
 from tgbot.db.users_db import postgre_start
 
 
-
 logger = logging.getLogger(__name__)
 
 
 async def on_startup(bot: Bot, admin_ids: list[int]):
-    print('bot started')
     await postgre_start()
-    
-    # await broadcaster.broadcast(bot, admin_ids, "Бот був запущений")
+    await broadcaster.broadcast(bot, admin_ids, "Бот був запущений")
 
 
 def register_global_middlewares(dp: Dispatcher, config):

@@ -82,17 +82,3 @@ TIMEFRAME = "1h"
     •    1w    // 1 неделя
     •    1M    // 1 месяц
 '''
-
-
-
-
-# Подключаем логирование
-# logging.basicConfig(
-#     format="%(asctime)s [%(levelname)-5.5s] %(message)s",
-#     level=logging.DEBUG,
-#     handlers=[
-#         logging.FileHandler("{path}/logs/{fname}.log".format(path=os.path.dirname(os.path.abspath(__file__)), fname="tgbot/binance")),
-#         logging.StreamHandler()
-#     ])
-# log = logging.getLogger('')
-

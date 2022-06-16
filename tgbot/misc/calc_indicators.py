@@ -46,8 +46,6 @@ def get_ind(userid):
     )
     klines = klines[:len(klines)-int(not USE_OPEN_CANDLES)]
     closes = [float(x[4]) for x in klines]
-    high = [float(x[2]) for x in klines]
-    low = [float(x[3]) for x in klines]
     
     smaP,emaP = get_param(userid)
     sma = ind.SMA(closes, smaP)
